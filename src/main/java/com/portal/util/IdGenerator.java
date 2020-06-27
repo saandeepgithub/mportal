@@ -7,17 +7,17 @@ import java.util.UUID;
 
 public class IdGenerator {
 
-    public static String genBillId(String billName, String billType) {
+    public static String genBillId(String billName, BillType billType) {
         SimpleDateFormat simpleDateFormat = null;
         Date date = null;
-        if (billType == BillType.DAILY.name()) {
-            simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
+        if (billType == BillType.DAILY) {
+            simpleDateFormat = new SimpleDateFormat("YYYYmmmdd");
             Random random = new Random(999);
             return simpleDateFormat.format(new Date()) + billName+random.nextInt();
-        } else if (billType == BillType.MONTHLY.name()) {
-            simpleDateFormat = new SimpleDateFormat("YYYYMM");
+        } else if (billType == BillType.MONTHLY) {
+            simpleDateFormat = new SimpleDateFormat("YYYYmmm");
             return simpleDateFormat.format(new Date()) + billName;
-        } else if (billType == BillType.YEARLY.name()) {
+        } else if (billType == BillType.YEARLY) {
             simpleDateFormat = new SimpleDateFormat("YYYY");
             return simpleDateFormat.format(new Date()) + billName;
         } else {

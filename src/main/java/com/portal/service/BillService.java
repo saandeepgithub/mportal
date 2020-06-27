@@ -2,8 +2,9 @@ package com.portal.service;
 
 import com.portal.mongo.domain.Bill;
 import com.portal.mongo.repo.BillRepository;
-import com.portal.mongo.repo.BillTypeRepository;
+import com.portal.util.BillType;
 import com.portal.util.IdGenerator;
+import com.portal.util.StaticData;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,15 +14,12 @@ public class BillService {
 
     private BillRepository billRepository;
 
-    private BillTypeRepository billTypeRepository;
-
-    public BillService(BillRepository billRepository, BillTypeRepository billTypeRepository) {
+    public BillService(BillRepository billRepository) {
         this.billRepository = billRepository;
-        this.billTypeRepository = billTypeRepository;
     }
 
     public Bill addBill(Bill bill) {
-        String billType=billTypeRepository.findById(bill.getBillName()).get().getBillType();
+        BillType billType= StaticData.billMap.get(bill.getBillName());
         bill.setBillId(IdGenerator.genBillId(bill.getBillName(),billType));
         Bill savedBill=billRepository.insert(bill);
         return savedBill;
