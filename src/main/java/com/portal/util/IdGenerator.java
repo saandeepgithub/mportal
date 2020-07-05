@@ -11,37 +11,49 @@ public class IdGenerator {
         SimpleDateFormat simpleDateFormat = null;
         Date date = null;
         if (billType == BillType.DAILY) {
-            simpleDateFormat = new SimpleDateFormat("YYYYmmmdd");
-            Random random = new Random(999);
-            return simpleDateFormat.format(new Date()) + billName+random.nextInt();
+            simpleDateFormat = new SimpleDateFormat("YYYYMMMdd");
+            String billPreFix=simpleDateFormat.format(new Date()).toUpperCase();
+            int billPostFix=new Random().nextInt(999);
+            return billPreFix + billName+String.valueOf(billPostFix);
         } else if (billType == BillType.MONTHLY) {
-            simpleDateFormat = new SimpleDateFormat("YYYYmmm");
-            return simpleDateFormat.format(new Date()) + billName;
+            simpleDateFormat = new SimpleDateFormat("YYYYMMM");
+            return simpleDateFormat.format(new Date()).toUpperCase() + billName;
         } else if (billType == BillType.YEARLY) {
             simpleDateFormat = new SimpleDateFormat("YYYY");
-            return simpleDateFormat.format(new Date()) + billName;
+            return simpleDateFormat.format(new Date()).toUpperCase() + billName;
         } else {
             return UUID.randomUUID().toString();
         }
     }
 
     public static String genIncomeId(){
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("mmmYYYY");
-        return "I"+simpleDateFormat.format(new Date());
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return "IN"+simpleDateFormat.format(new Date()).toUpperCase();
     }
 
     public static String genExpId(){
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("mmmYYYY");
-        return "E"+simpleDateFormat.format(new Date());
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return "EX"+simpleDateFormat.format(new Date()).toUpperCase();
+    }
+
+    public static String genWalletId(String walletName){
+        String walletReference=StaticData.paymentMap.get(walletName);
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return walletReference+simpleDateFormat.format(new Date()).toUpperCase();
     }
 
     public static String savingsId(){
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("mmmYYYY");
-        return "S"+simpleDateFormat.format(new Date());
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return "SA"+simpleDateFormat.format(new Date()).toUpperCase();
+    }
+
+    public static String cashBackId(){
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return "CB"+simpleDateFormat.format(new Date()).toUpperCase();
     }
 
     public static String emiId(String emiName){
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("mmmYYYY");
-        return "EMI"+emiName.toUpperCase()+simpleDateFormat.format(new Date());
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
+        return "EMI"+emiName.toUpperCase()+simpleDateFormat.format(new Date()).toUpperCase();
     }
 }

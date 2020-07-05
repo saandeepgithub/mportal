@@ -3,4 +3,5 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/mportal-dev
+      uri: mongodb://localhost:27017
+      database: mportal-dev

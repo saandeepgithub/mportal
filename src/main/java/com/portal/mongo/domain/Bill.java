@@ -38,8 +38,8 @@ public class Bill {
     @Field("BILL_PAYMENT_MODE")
     private String billPaymentMode;
 
-    @Field("CASHBACK_ID")
-    private String cashBackId;
+    @Field("CASHBACK")
+    private int cashBack;
 
     @Field("LAST_MODIFIED")
     private LastModifiedDto lastModifiedDto;

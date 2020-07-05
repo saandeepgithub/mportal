@@ -1,4 +1,4 @@
-package com.portal;
+package com.portal.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
