@@ -26,6 +26,9 @@ public class Expenditure {
     @Min(value = 0)
     private float expAmount;
 
+    @Field("ACTIVE_STATUS")
+    private String activeStatus;
+
     @Field("LAST_MODIFIED_DATE")
     private LastModifiedDate lastModifiedDate;
 }

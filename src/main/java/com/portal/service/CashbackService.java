@@ -19,36 +19,36 @@ public class CashbackService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void addCashBack(int cashBack){
-        Query query= new Query(Criteria.where("cashBackId").is(IdGenerator.cashBackId()));
-        Update update = new Update().inc("cashBackAmount",cashBack);
-        mongoTemplate.updateFirst(query,update, CashBack.class);
+    public void addCashBack(float cashBack) {
+        Query query = new Query(Criteria.where("cashBackId").is(IdGenerator.cashBackId()));
+        Update update = new Update().inc("cashBackAmount", cashBack);
+        mongoTemplate.updateFirst(query, update, CashBack.class);
     }
 
-    public void removeCashBack(int cashBack){
-        Query query= new Query(Criteria.where("cashBackId").is(IdGenerator.cashBackId()));
-        Update update = new Update().inc("cashBackAmount",cashBack*(-1));
-        mongoTemplate.updateFirst(query,update, CashBack.class);
+    public void removeCashBack(float cashBack) {
+        Query query = new Query(Criteria.where("cashBackId").is(IdGenerator.cashBackId()));
+        Update update = new Update().inc("cashBackAmount", cashBack * (-1));
+        mongoTemplate.updateFirst(query, update, CashBack.class);
     }
 
-    public void addCashBackRecord(){
-        Query query=new Query(Criteria.where("activeStatus").is("Y"));
-        CashBack activeCashBack=mongoTemplate.findOne(query,CashBack.class);
-        CashBack cashBack= new CashBack();
+    public void addCashBackRecord() {
+        Query query = new Query(Criteria.where("activeStatus").is("Y"));
+        CashBack activeCashBack = mongoTemplate.findOne(query, CashBack.class);
+        CashBack cashBack = new CashBack();
         cashBack.setCashBackId(IdGenerator.cashBackId());
         cashBack.setActiveStatus("Y");
-        if(activeCashBack!=null){
-          cashBack.setCashBackAmount(activeCashBack.getCashBackAmount());
-        }else{
+        if (activeCashBack != null) {
+            cashBack.setCashBackAmount(activeCashBack.getCashBackAmount());
+        } else {
             cashBack.setCashBackAmount(0);
         }
         deActivateCashBackRecord();
-        CashBack savedCashBack=cashBackRepository.insert(cashBack);
+        cashBackRepository.insert(cashBack);
     }
 
-    public  void deActivateCashBackRecord(){
+    public void deActivateCashBackRecord() {
         Query query = new Query(Criteria.where("activeStatus").is("Y"));
-        Update update = new Update().push("activeStatus","N");
-        mongoTemplate.updateFirst(query,update,CashBack.class);
+        Update update = new Update().push("activeStatus", "N");
+        mongoTemplate.updateFirst(query, update, CashBack.class);
     }
 }

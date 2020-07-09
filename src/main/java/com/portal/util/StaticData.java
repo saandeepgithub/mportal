@@ -45,11 +45,12 @@ public class StaticData {
 
        paymentMap.put(Payments.AMAZON_PAY.name(),"AP");
        paymentMap.put(Payments.CASH.name(),"CA");
-       paymentMap.put(Payments.CASH.name(),"CB");
+       paymentMap.put(Payments.CASH.name(),"CH");
        paymentMap.put(Payments.CREDIT_CARD.name(),"CC");
        paymentMap.put(Payments.DEBIT_CARD.name(),"DC");
        paymentMap.put(Payments.GOOGLE_PAY.name(),"GP");
        paymentMap.put(Payments.PAYTM.name(),"PT");
        paymentMap.put(Payments.PHONE_PAY.name(),"PP");
+       paymentMap.put(Payments.CASH_BACK.name(),"CB");
    }
 }

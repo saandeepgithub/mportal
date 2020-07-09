@@ -4,6 +4,7 @@ import com.portal.response.GenericResponse;
 import com.portal.mongo.domain.Bill;
 import com.portal.service.BillService;
 import com.portal.util.StaticData;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +14,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bills")
+@AllArgsConstructor
 public class BillController {
-
 
     private BillService billService;
 
-    public BillController(BillService billService) {
-        this.billService = billService;
-    }
-
-    @PutMapping(value = "/add",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericResponse> addBill(@RequestBody Bill bill) {
         Bill savedBill = billService.addBill(bill);
         if (savedBill != null) {
@@ -31,7 +28,7 @@ public class BillController {
         return new ResponseEntity<>(new GenericResponse(HttpStatus.NOT_FOUND.name(), "failed to add bill"), HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/save",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GenericResponse> saveBill(@RequestBody Bill bill) {
         Bill savedBill = billService.saveBill(bill);
         if (savedBill != null) {
@@ -50,8 +47,8 @@ public class BillController {
     }
 
     @GetMapping(value = "/allowed")
-    public ResponseEntity<GenericResponse> allowedBills(){
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), StaticData.billMap.keySet()),HttpStatus.OK);
+    public ResponseEntity<GenericResponse> allowedBills() {
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), StaticData.billMap.keySet()), HttpStatus.OK);
     }
 
 }

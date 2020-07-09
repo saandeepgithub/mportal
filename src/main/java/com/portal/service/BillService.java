@@ -7,22 +7,23 @@ import com.portal.util.BillType;
 import com.portal.util.IdGenerator;
 import com.portal.util.Payments;
 import com.portal.util.StaticData;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BillService {
 
-    @Autowired
     private BillRepository billRepository;
 
-    @Autowired
     private WalletService walletService;
 
-    @Autowired
     private CashbackService cashbackService;
+
+    private ExpenditureService expenditureService;
 
     public Bill addBill(Bill bill) {
         BillType billType = StaticData.billMap.get(bill.getBillName());
@@ -30,16 +31,14 @@ public class BillService {
         bill.setLastModifiedDto(new LastModifiedDto());
         String paymentMode = bill.getBillPaymentMode();
         Bill savedBill = billRepository.insert(bill);
-        if (paymentMode.equals(Payments.AMAZON_PAY.name()) ||
-                paymentMode.equals(Payments.GOOGLE_PAY.name()) ||
-                paymentMode.equals(Payments.PAYTM.name()) ||
-                paymentMode.equals(Payments.PHONE_PAY.name())) {
-            payFromWallet(paymentMode, (int) savedBill.getBillAmount());
-        } else if (paymentMode.equals(Payments.CASH_BACK)) {
-            removeCashBack((int) savedBill.getBillAmount());
+        if (!paymentMode.equals(Payments.CASH_BACK)) {
+            payFromWallet(paymentMode, savedBill.getBillAmount());
+            expenditureService.addExpenditure(savedBill.getBillAmount());
+        } else {
+            removeCashBack(savedBill.getBillAmount());
         }
         if (savedBill.getCashBack() > 0) {
-            addCashBack(paymentMode, (int) savedBill.getBillAmount());
+            addCashBack(paymentMode, savedBill.getBillAmount());
         }
         return savedBill;
     }
@@ -54,20 +53,20 @@ public class BillService {
         return viewBill;
     }
 
-    public void payFromWallet(String walletName, int walletAmount) {
+    private void payFromWallet(String walletName, float walletAmount) {
         walletService.payFromWallet(walletAmount, walletName);
     }
 
-    public void updateWallet(String walletName, int walletAmount) {
+    public void updateWallet(String walletName, float walletAmount) {
         walletService.addMoneyWallet(walletAmount, walletName);
     }
 
-    public void addCashBack(String walletName, int walletAmount) {
+    private void addCashBack(String walletName, float walletAmount) {
         walletService.addCashBack(walletAmount, walletName);
         cashbackService.addCashBack(walletAmount);
     }
 
-    public void removeCashBack(int walletAmount) {
+    public void removeCashBack(float walletAmount) {
         cashbackService.removeCashBack(walletAmount);
     }
 }
