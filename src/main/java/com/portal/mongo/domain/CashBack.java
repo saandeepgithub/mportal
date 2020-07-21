@@ -1,5 +1,6 @@
 package com.portal.mongo.domain;
 
+import com.portal.mongo.domain.dto.LastModifiedDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,7 @@ public class CashBack {
 
     @Field("ACTIVE_STATUS")
     private String activeStatus;
+
+    @Field("LAST_MODIFIED")
+    private LastModifiedDto lastModifiedDto;
 }

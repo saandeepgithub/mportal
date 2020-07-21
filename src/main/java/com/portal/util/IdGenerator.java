@@ -8,13 +8,12 @@ import java.util.UUID;
 public class IdGenerator {
 
     public static String genBillId(String billName, BillType billType) {
-        SimpleDateFormat simpleDateFormat = null;
-        Date date = null;
+        SimpleDateFormat simpleDateFormat;
         if (billType == BillType.DAILY) {
             simpleDateFormat = new SimpleDateFormat("YYYYMMMdd");
             String billPreFix=simpleDateFormat.format(new Date()).toUpperCase();
             int billPostFix=new Random().nextInt(999);
-            return billPreFix + billName+String.valueOf(billPostFix);
+            return billPreFix + billName+ billPostFix;
         } else if (billType == BillType.MONTHLY) {
             simpleDateFormat = new SimpleDateFormat("YYYYMMM");
             return simpleDateFormat.format(new Date()).toUpperCase() + billName;
@@ -37,9 +36,8 @@ public class IdGenerator {
     }
 
     public static String genWalletId(String walletName){
-        String walletReference=StaticData.paymentMap.get(walletName);
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("MMMYYYY");
-        return walletReference+simpleDateFormat.format(new Date()).toUpperCase();
+        return walletName+simpleDateFormat.format(new Date()).toUpperCase();
     }
 
     public static String savingsId(){

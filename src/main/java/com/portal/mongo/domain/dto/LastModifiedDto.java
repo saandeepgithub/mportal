@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +18,5 @@ public class LastModifiedDto {
     private String lastModifiedBy;
 
     @LastModifiedDate
-    private String lastModifiedDate;
+    private Date lastModifiedDate;
 }

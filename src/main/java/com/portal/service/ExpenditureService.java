@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,13 @@ public class ExpenditureService {
         mongoTemplate.updateFirst(query, update, Expenditure.class);
     }
 
+    public void addCashBackToExpenditure(float amount) {
+        String expId = IdGenerator.genExpId();
+        Query query = new Query(Criteria.where("_id").is(expId));
+        Update update = new Update().inc("expAmount", amount*(-1));
+        mongoTemplate.updateFirst(query, update, Expenditure.class);
+    }
+
     public void addExpenditureRecord() {
         String expId = IdGenerator.genExpId();
         Optional<Expenditure> expenditure = expenditureRepository.findById(expId);
@@ -37,23 +45,27 @@ public class ExpenditureService {
             expenditureRecord.setExpId(expId);
             expenditureRecord.setExpAmount(0);
             expenditureRecord.setActiveStatus("Y");
+            LastModifiedDto lastModifiedDto = new LastModifiedDto();
+            lastModifiedDto.setLastModifiedBy("admin");
+            lastModifiedDto.setLastModifiedDate(new Date(System.currentTimeMillis()));
+            expenditureRecord.setLastModifiedDto(lastModifiedDto);
             deActivateExpenditure();
             expenditureRepository.save(expenditureRecord);
         }
     }
 
-    public void deActivateExpenditure(){
+    public void deActivateExpenditure() {
         Optional<Expenditure> expenditure = expenditureRepository.findExpenditureByActiveStatusEquals("Y");
-        if(expenditure.isPresent()){
-           Query query = new Query(Criteria.where("_id").is(expenditure.get().getExpId()));
-           Update update = new Update().push("activeStatus","N");
-           mongoTemplate.updateFirst(query,update,Expenditure.class);
+        if (expenditure.isPresent()) {
+            Query query = new Query(Criteria.where("_id").is(expenditure.get().getExpId()));
+            Update update = new Update().push("activeStatus", "N");
+            mongoTemplate.updateFirst(query, update, Expenditure.class);
         }
     }
 
-    public float getExpenditure(String expId){
+    public float getExpenditure(String expId) {
         Optional<Expenditure> expenditure = expenditureRepository.findById(expId);
-        if(expenditure.isPresent()){
+        if (expenditure.isPresent()) {
             return expenditure.get().getExpAmount();
         }
         return 0;
