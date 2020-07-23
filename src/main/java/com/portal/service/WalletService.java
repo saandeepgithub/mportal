@@ -3,6 +3,7 @@ package com.portal.service;
 import com.portal.mongo.domain.Wallets;
 import com.portal.mongo.domain.dto.LastModifiedDto;
 import com.portal.mongo.repo.WalletRepository;
+import com.portal.response.GenericResponse;
 import com.portal.util.IdGenerator;
 import com.portal.util.StaticData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class WalletService {
         mongoTemplate.updateFirst(query, update, Wallets.class);
     }
 
+    public List<Wallets> getAllWalletsInfo(){
+        Criteria activeStatusCriteria = Criteria.where("walletActive").is("Y");
+        Query query = new Query(activeStatusCriteria);
+        return mongoTemplate.find(query,Wallets.class);
+    }
+
     public void addCashBack(float walletAmount, String walletName) {
         Query query = new Query(Criteria.where("walletId").is(IdGenerator.genWalletId(walletName)));
         Update update = new Update().inc("walletAmount", walletAmount);
@@ -48,7 +55,7 @@ public class WalletService {
         StaticData.walletMap.forEach((key, value) -> {
             String walletId = IdGenerator.genWalletId(value);
             Wallets wallets = new Wallets();
-            wallets.setWalletName(key.name());
+            wallets.setWalletName(key);
             wallets.setLastModifiedDto(new LastModifiedDto());
             wallets.setWalletId(walletId);
             wallets.setWalletActive("Y");

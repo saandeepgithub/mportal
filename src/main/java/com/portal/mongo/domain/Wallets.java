@@ -1,6 +1,7 @@
 package com.portal.mongo.domain;
 
 import com.portal.mongo.domain.dto.LastModifiedDto;
+import com.portal.util.Payments;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Wallets {
     private String walletId;
 
     @Field("WALLET_NAME")
-    private String walletName;
+    private Payments walletName;
 
     @Field("WALLET_AMOUNT")
     private int walletAmount;
