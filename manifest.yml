@@ -1,5 +1,0 @@
----
-applications:
-  - name: mportal-ui
-    path: public
-    memory: 64MB
