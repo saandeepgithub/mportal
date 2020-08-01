@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -51,4 +53,19 @@ public class BillController {
         return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), StaticData.billMap.keySet()), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/search/all")
+    public ResponseEntity<GenericResponse> searchBillId() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMM");
+        String billIdPrefix = simpleDateFormat.format(new Date()).toUpperCase();
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), billService.getAllBillId(billIdPrefix)), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/search/{billId}")
+    public ResponseEntity<GenericResponse> searchBill(@PathVariable("billId") String billId) {
+        Optional<Bill> optionalBill = billService.getBillByBillId(billId);
+        if (optionalBill.isPresent()) {
+            return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), optionalBill.get()), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.NO_CONTENT.name(), "BILL NOT FOUND"), HttpStatus.NO_CONTENT);
+    }
 }

@@ -8,7 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -55,5 +57,16 @@ public class BillService {
     public Optional<Bill> viewBill(String billId) {
         Optional<Bill> viewBill = billRepository.findById(billId);
         return viewBill;
+    }
+
+    public List<String> getAllBillId(String billPreFix) {
+      List<Bill> bills=billRepository.getByBillIdIsStartingWith(billPreFix);
+      List<String> billIds=bills.stream().map(bill ->bill.getBillId()).collect(Collectors.toList());
+      return billIds;
+    }
+
+    public Optional<Bill> getBillByBillId(String billId) {
+        Optional<Bill> optionalBill=billRepository.getAllByBillIdEquals(billId);
+        return optionalBill;
     }
 }
