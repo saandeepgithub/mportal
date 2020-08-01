@@ -1,6 +1,5 @@
-server:
-  port: 9070
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/mportal
+      uri: mongodb+srv://mportal:c1M2p3@sandeep-primary-cluster-se586.mongodb.net/mportal?retryWrites=true&w=majority
+      database: mportal

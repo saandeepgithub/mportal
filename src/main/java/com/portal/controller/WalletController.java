@@ -19,6 +19,7 @@ import java.util.TreeMap;
 @RestController
 @RequestMapping("/wallet")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class WalletController {
 
     private WalletService walletService;
