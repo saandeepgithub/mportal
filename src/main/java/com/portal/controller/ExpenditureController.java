@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/expenditure")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class ExpenditureController {
 
     private ExpenditureService expenditureService;
