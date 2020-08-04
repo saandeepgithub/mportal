@@ -13,6 +13,7 @@ public class StaticData {
 
    static {
        billTypeMap.put("DTH",BillType.MONTHLY);
+       billTypeMap.put("MILK",BillType.MONTHLY);
        billTypeMap.put("ACT",BillType.MONTHLY);
        billTypeMap.put("PTL",BillType.DAILY);
        billTypeMap.put("WB",BillType.MONTHLY);
@@ -29,6 +30,7 @@ public class StaticData {
        billTypeMap.put("MR",BillType.DAILY);
 
        billMap.put("DTH","DTH");
+       billMap.put("MLK","MILK");
        billMap.put("ACT-FIBER","ACT-FIBER");
        billMap.put("PTL","PETROL");
        billMap.put("WB","WATER_BILL");

@@ -44,7 +44,7 @@ public class BillController {
     public ResponseEntity<GenericResponse> viewBill(@PathVariable("billId") String billId) {
         Optional<Bill> viewBill = billService.viewBill(billId);
         if (viewBill.isPresent()) {
-            return new ResponseEntity<>(new GenericResponse(HttpStatus.FOUND.name(), viewBill.get()), HttpStatus.FOUND);
+            return new ResponseEntity<>(new GenericResponse(HttpStatus.FOUND.name(), viewBill.get()), HttpStatus.OK);
         }
         return new ResponseEntity<>(new GenericResponse(HttpStatus.NOT_FOUND.name(), "No Bill Present with billId " + billId), HttpStatus.NOT_FOUND);
     }

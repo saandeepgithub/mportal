@@ -3,3 +3,5 @@ spring:
     mongodb:
       uri: mongodb+srv://mportal:c1M2p3@sandeep-primary-cluster-se586.mongodb.net/mportal?retryWrites=true&w=majority
       database: mportal
+covid:
+  url: https://api.covid19india.org/v5/min/data.min.json
