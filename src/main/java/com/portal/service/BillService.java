@@ -7,6 +7,7 @@ import com.portal.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -60,13 +61,19 @@ public class BillService {
     }
 
     public List<String> getAllBillId(String billPreFix) {
-      List<Bill> bills=billRepository.getByBillIdIsStartingWith(billPreFix);
-      List<String> billIds=bills.stream().map(bill ->bill.getBillId()).collect(Collectors.toList());
-      return billIds;
+        List<Bill> bills = billRepository.getByBillIdIsStartingWith(billPreFix);
+        List<String> billIds = bills.stream().map(bill -> bill.getBillId()).collect(Collectors.toList());
+        return billIds;
+    }
+
+    public List<Bill> getAllBills(String billPreFix) {
+        List<Bill> bills = billRepository.getByBillIdIsStartingWith(billPreFix);
+        List<Bill> sortedBills = bills.stream().sorted(Comparator.comparing(Bill::getBillDate).reversed()).collect(Collectors.toList());
+        return sortedBills;
     }
 
     public Optional<Bill> getBillByBillId(String billId) {
-        Optional<Bill> optionalBill=billRepository.getAllByBillIdEquals(billId);
+        Optional<Bill> optionalBill = billRepository.getAllByBillIdEquals(billId);
         return optionalBill;
     }
 }

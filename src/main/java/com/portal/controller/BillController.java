@@ -61,6 +61,13 @@ public class BillController {
         return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), billService.getAllBillId(billIdPrefix)), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/all")
+    public ResponseEntity<GenericResponse> getAllBills() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMM");
+        String billIdPrefix = simpleDateFormat.format(new Date()).toUpperCase();
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.name(), billService.getAllBills(billIdPrefix)), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/search/{billId}")
     public ResponseEntity<GenericResponse> searchBill(@PathVariable("billId") String billId) {
         Optional<Bill> optionalBill = billService.getBillByBillId(billId);
