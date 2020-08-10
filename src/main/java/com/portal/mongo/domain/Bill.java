@@ -35,6 +35,9 @@ public class Bill {
     @Min(value = 0)
     private float billAmount;
 
+    @Field("BILL_DESCRIPTION")
+    private String billDescription;
+
     @Field("BILL_PAYMENT_MODE")
     private String billPaymentMode;
 
